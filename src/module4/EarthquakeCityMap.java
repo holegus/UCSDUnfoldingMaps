@@ -65,7 +65,7 @@ public class EarthquakeCityMap extends PApplet {
 		size(900, 700, OPENGL);
 		if (offline) {
 		    map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
-		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
+		    //earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
 			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
@@ -77,7 +77,7 @@ public class EarthquakeCityMap extends PApplet {
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
 		//earthquakesURL = "test1.atom";
-		//earthquakesURL = "test2.atom";
+		earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
 		//earthquakesURL = "quiz1.atom";
@@ -134,7 +134,7 @@ public class EarthquakeCityMap extends PApplet {
 	private void addKey() {	
 		// Remember you can use Processing's graphics methods here
 		fill(255, 250, 240);
-		rect(25, 50, 150, 250);
+		rect(25, 50, 150, 310);
 		
 		fill(0);
 		textAlign(LEFT, CENTER);
@@ -142,16 +142,33 @@ public class EarthquakeCityMap extends PApplet {
 		text("Earthquake Key", 50, 75);
 		
 		fill(color(255, 0, 0));
-		ellipse(50, 125, 15, 15);
+		triangle(45, 110, 55,110,50,102);
+		fill(color(255, 255, 255));
+		ellipse(50, 130, 10, 10);
+		fill(color(255, 255, 255));
+		rect(45, 152, 10, 10);
+		
 		fill(color(255, 255, 0));
-		ellipse(50, 175, 10, 10);
+		ellipse(50, 240, 10, 10);
 		fill(color(0, 0, 255));
-		ellipse(50, 225, 5, 5);
+		ellipse(50, 260, 10, 10);
+		fill(color(255, 0, 0));
+		ellipse(50, 280, 10, 10);
+		fill(color(255, 255, 255));
+		ellipse(50, 300, 10, 10);
+		line(45,295,55,305);
+		line(45,305,55,295);
+		
 		
 		fill(0, 0, 0);
-		text("5.0+ Magnitude", 75, 125);
-		text("4.0+ Magnitude", 75, 175);
-		text("Below 4.0", 75, 225);
+		text("City Marker", 75, 105);
+		text("Land Quake", 75, 130);
+		text("Ocean Quake", 75, 155);
+		text("Size - Magnitude", 50, 190);
+		text("Shallow", 75, 240);
+		text("Intermediate", 75, 260);
+		text("Deep", 75, 280);
+		text("Past Hour", 75, 300);
 	}
 
 	
@@ -165,8 +182,14 @@ public class EarthquakeCityMap extends PApplet {
 		// IMPLEMENT THIS: loop over all countries to check if location is in any of them
 		
 		// TODO: Implement this method using the helper method isInCountry
-		
 		// not inside any country
+		for(Marker countryMarker : countryMarkers){
+			
+			if (isInCountry(earthquake, countryMarker)) {
+				return true;
+			}
+			
+		}
 		return false;
 	}
 	
@@ -178,7 +201,23 @@ public class EarthquakeCityMap extends PApplet {
 	// And LandQuakeMarkers have a "country" property set.
 	private void printQuakes() 
 	{
-		// TODO: Implement this method
+		int landQuakeCount=0;
+		int oceanQuakes = quakeMarkers.size();
+		for(Marker countryMarker : countryMarkers){
+			for (Marker quakeMarker : quakeMarkers){
+				
+				if (countryMarker.getProperty("name") == quakeMarker.getProperty("country")){
+					landQuakeCount++;
+				}
+			}
+			if (landQuakeCount != 0){
+				oceanQuakes = oceanQuakes - landQuakeCount;
+				
+				System.out.println(countryMarker.getProperty("name") + " : " + landQuakeCount);	
+			}
+			landQuakeCount = 0;
+		}
+		System.out.println("OCEAN QUAKES: " + oceanQuakes);
 	}
 	
 	
