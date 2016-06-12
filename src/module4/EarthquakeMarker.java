@@ -22,7 +22,6 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	// based on magnitude. 
 	protected float radius;
 	
-	
 	/** Greater than or equal to this threshold is a moderate earthquake */
 	public static final float THRESHOLD_MODERATE = 5;
 	/** Greater than or equal to this threshold is a light earthquake */
@@ -49,7 +48,8 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		float magnitude = Float.parseFloat(properties.get("magnitude").toString());
 		properties.put("radius", 2*magnitude );
 		setProperties(properties);
-		this.radius = 1.75f*getMagnitude();
+		//this.radius = 1.75f*getMagnitude();
+		this.radius = 2f*getMagnitude();
 	}
 	
 
@@ -64,11 +64,19 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 		// call abstract method implemented in child class to draw marker shape
 		drawEarthquake(pg, x, y);
 		
-		// OPTIONAL TODO: draw X over marker if within past day		
+		// determine if it was past day quake and put X on the marker	
+		if (isPastDay().compareTo("Past Day") == 0) drawXoverMarker(pg,x,y);
 		
 		// reset to previous styling
 		pg.popStyle();
 		
+	}
+	
+	// put X on the marker
+	private void drawXoverMarker(PGraphics pg, float x, float y){
+		
+		pg.line(x-this.radius/2,y-this.radius/2,x+this.radius/2,y+this.radius/2);
+		pg.line(x-this.radius/2,y+this.radius/2,x+this.radius/2,y-this.radius/2);
 	}
 	
 	// determine color of marker from depth
@@ -78,13 +86,13 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	private void colorDetermine(PGraphics pg) {
 		//TODO: Implement this method
 		if (this.getDepth() < 70){
-			pg.fill(0);
+			pg.fill(255,255,0);
 						
 		}else if ((this.getDepth() >= 70) && (this.getDepth() < 300)) {
-			pg.fill(300);
+			pg.fill(0,0,255);
 			
 		}else{
-			pg.fill(600);
+			pg.fill(255,0,0);
 			
 		}
 		
@@ -115,6 +123,10 @@ public abstract class EarthquakeMarker extends SimplePointMarker
 	public boolean isOnLand()
 	{
 		return isOnLand;
+	}
+	
+	public String isPastDay(){
+		return getProperty("age").toString();
 	}
 	
 	

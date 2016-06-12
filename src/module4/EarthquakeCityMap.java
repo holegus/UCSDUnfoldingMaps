@@ -70,14 +70,14 @@ public class EarthquakeCityMap extends PApplet {
 		else {
 			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
-		    //earthquakesURL = "2.5_week.atom";
+		    earthquakesURL = "2.5_week.atom";
 		}
 		MapUtils.createDefaultEventDispatcher(this, map);
 		
 		// FOR TESTING: Set earthquakesURL to be one of the testing files by uncommenting
 		// one of the lines below.  This will work whether you are online or offline
 		//earthquakesURL = "test1.atom";
-		earthquakesURL = "test2.atom";
+		//earthquakesURL = "test2.atom";
 		
 		// WHEN TAKING THIS QUIZ: Uncomment the next line
 		//earthquakesURL = "quiz1.atom";
@@ -168,7 +168,7 @@ public class EarthquakeCityMap extends PApplet {
 		text("Shallow", 75, 240);
 		text("Intermediate", 75, 260);
 		text("Deep", 75, 280);
-		text("Past Hour", 75, 300);
+		text("Past Day", 75, 300);
 	}
 
 	
