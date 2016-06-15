@@ -84,13 +84,13 @@ public class EarthquakeCityMap extends PApplet {
 	    		float mag = Float.parseFloat(magObj.toString());
 	    		int markerIndex = markers.size() - 1;
 	    		    	   	
-	    	   	if (mag < 4.0) 
+	    	   	if (mag < THRESHOLD_LIGHT) 
 	    	   	{ 
 	    	   		markers.get(markerIndex).setColor(color(0,0,255));
 	    	   		markers.get(markerIndex).setRadius(5);
 	    	   	}
 	    		
-	    	   	else if ((mag >= 4.0) && (mag < 4.9)) 
+	    	   	else if ((mag >= THRESHOLD_LIGHT) && (mag < THRESHOLD_MODERATE)) 
 	    			{ 
 	    	   		markers.get(markerIndex).setColor(color(255,255,0));
 	    	   		markers.get(markerIndex).setRadius(10);

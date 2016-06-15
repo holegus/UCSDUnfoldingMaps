@@ -61,7 +61,7 @@ public class EarthquakeCityMap extends PApplet {
 	// NEW IN MODULE 5
 	private CommonMarker lastSelected;
 	private CommonMarker lastClicked;
-	
+		
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
 		size(900, 700, OPENGL);
@@ -115,7 +115,6 @@ public class EarthquakeCityMap extends PApplet {
 	    
 	}  // End setup
 	
-	
 	public void draw() {
 		background(0);
 		map.draw();
@@ -129,14 +128,17 @@ public class EarthquakeCityMap extends PApplet {
 	@Override
 	public void mouseMoved()
 	{
+		
 		// clear the last selection
 		if (lastSelected != null) {
 			lastSelected.setSelected(false);
 			lastSelected = null;
 		
 		}
+		
 		selectMarkerIfHover(quakeMarkers);
 		selectMarkerIfHover(cityMarkers);
+		
 	}
 	
 	// If there is a marker under the cursor, and lastSelected is null 
@@ -146,6 +148,15 @@ public class EarthquakeCityMap extends PApplet {
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		// TODO: Implement this method
+		for (Marker m : markers) {
+			
+			CommonMarker marker = (CommonMarker)m;
+			if (marker.isInside(map, mouseX, mouseY)) {
+				lastSelected = marker;
+				marker.setSelected(true);
+				return;
+			}
+		}
 	}
 	
 	/** The event handler for mouse clicks
