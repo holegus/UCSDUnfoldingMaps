@@ -174,24 +174,53 @@ public class EarthquakeCityMap extends PApplet {
 			unhideMarkers();
 			lastClicked = null;
 		} else if (lastClicked == null) {
-			CheckMarkerForClick(quakeMarkers, cityMarkers);
+			CheckMarkerForClick();
+			CheckCityForClick();
 		}
 		
 	}
 	
-	private void CheckMarkerForClick(List<Marker> list1, List<Marker> list2) {
-		for(Marker marker : list1) {
-			if (!marker.isHidden() && marker.isInside(map, mouseX, mouseY)) {
-				lastClicked = (CommonMarker)marker;
-				for (Marker m : list1) {
-					if (m != lastClicked) {
-						m.setHidden(true);
+	private void CheckMarkerForClick() {
+		if (lastClicked != null) {
+			return;
+		}
+		
+		for(Marker qmarker : quakeMarkers) {
+			if (!qmarker.isHidden() && qmarker.isInside(map, mouseX, mouseY)) {
+				lastClicked = (CommonMarker)qmarker;
+				for (Marker qm : quakeMarkers) {
+					if (qm != lastClicked) {
+						qm.setHidden(true);
 					}
 				}
-				for (Marker city : list2) {
+				for (Marker cmarker : cityMarkers) {
 					
-					if (city.getDistanceTo(lastClicked.getLocation()) > 500) {
-						city.setHidden(true);
+					if (cmarker.getDistanceTo(lastClicked.getLocation()) > 500) {
+						cmarker.setHidden(true);
+					}
+					
+				}
+			}
+		}
+	}
+	
+	private void CheckCityForClick() {
+		if (lastClicked != null) {
+			return;
+		}
+		
+		for(Marker cmarker : cityMarkers) {
+			if (!cmarker.isHidden() && cmarker.isInside(map, mouseX, mouseY)) {
+				lastClicked = (CommonMarker)cmarker;
+				for (Marker qc : cityMarkers) {
+					if (qc != lastClicked) {
+						qc.setHidden(true);
+					}
+				}
+				for (Marker qmarker : quakeMarkers) {
+					
+					if (qmarker.getDistanceTo(lastClicked.getLocation()) > 500) {
+						qmarker.setHidden(true);
 					}
 					
 				}
