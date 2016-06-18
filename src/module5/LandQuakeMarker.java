@@ -27,6 +27,7 @@ public class LandQuakeMarker extends EarthquakeMarker {
 	public void drawEarthquake(PGraphics pg, float x, float y) {
 		pg.ellipse(x, y, 2*radius, 2*radius);
 		
+		
 	}
 	
 

@@ -149,7 +149,7 @@ public class EarthquakeCityMap extends PApplet {
 	{
 		// TODO: Implement this method
 		for (Marker m : markers) {
-			
+
 			CommonMarker marker = (CommonMarker)m;
 			if (marker.isInside(map, mouseX, mouseY)) {
 				lastSelected = marker;
@@ -176,6 +176,7 @@ public class EarthquakeCityMap extends PApplet {
 		} else if (lastClicked == null) {
 			CheckMarkerForClick();
 			CheckCityForClick();
+			
 		}
 		
 	}
@@ -197,6 +198,7 @@ public class EarthquakeCityMap extends PApplet {
 					
 					if (cmarker.getDistanceTo(lastClicked.getLocation()) > 500) {
 						cmarker.setHidden(true);
+						
 					}
 					
 				}
