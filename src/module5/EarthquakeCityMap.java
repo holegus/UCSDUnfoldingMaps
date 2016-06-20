@@ -189,6 +189,7 @@ public class EarthquakeCityMap extends PApplet {
 		for(Marker qmarker : quakeMarkers) {
 			if (!qmarker.isHidden() && qmarker.isInside(map, mouseX, mouseY)) {
 				lastClicked = (CommonMarker)qmarker;
+				//System.out.println("Kuku" + impactRange(lastClicked));
 				for (Marker qm : quakeMarkers) {
 					if (qm != lastClicked) {
 						qm.setHidden(true);
@@ -196,7 +197,7 @@ public class EarthquakeCityMap extends PApplet {
 				}
 				for (Marker cmarker : cityMarkers) {
 					
-					if (cmarker.getDistanceTo(lastClicked.getLocation()) > 500) {
+					if (cmarker.getDistanceTo(lastClicked.getLocation()) > impactRange(lastClicked)) {
 						cmarker.setHidden(true);
 						
 					}
@@ -221,7 +222,7 @@ public class EarthquakeCityMap extends PApplet {
 				}
 				for (Marker qmarker : quakeMarkers) {
 					
-					if (qmarker.getDistanceTo(lastClicked.getLocation()) > 500) {
+					if (qmarker.getDistanceTo(lastClicked.getLocation()) > impactRange((CommonMarker)qmarker)) {
 						qmarker.setHidden(true);
 					}
 					
@@ -382,4 +383,11 @@ public class EarthquakeCityMap extends PApplet {
 		return false;
 	}
 
+	//Calculate the range of impact (in km) for the selected earthquake. Use "magnitude" property.
+	public float impactRange(CommonMarker lastClicked) {
+		float magnitude = Float.parseFloat(lastClicked.getProperty("magnitude").toString());
+		float impactRange = (float) (20*(Math.pow(1.8, (2*magnitude - 5))));
+		return impactRange;
+	}
+	
 }
