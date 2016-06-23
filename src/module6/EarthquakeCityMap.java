@@ -2,6 +2,7 @@ package module6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -44,7 +45,8 @@ public class EarthquakeCityMap extends PApplet {
 	
 
 	//feed with magnitude 2.5+ Earthquakes
-	private String earthquakesURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
+	//private String earthquakesURL = "http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
+	private String earthquakesURL = "test2.atom";
 	
 	// The files containing city names and info and country names and info
 	private String cityFile = "city-data.json";
@@ -58,6 +60,8 @@ public class EarthquakeCityMap extends PApplet {
 	// Markers for each earthquake
 	private List<Marker> quakeMarkers;
 
+	private Marker toSort[];
+	
 	// A List of country markers
 	private List<Marker> countryMarkers;
 	
@@ -123,7 +127,7 @@ public class EarthquakeCityMap extends PApplet {
 	    //           for their geometric properties
 	    map.addMarkers(quakeMarkers);
 	    map.addMarkers(cityMarkers);
-	    
+	    sortAndPrint(67);
 	    
 	}  // End setup
 	
@@ -410,4 +414,30 @@ public class EarthquakeCityMap extends PApplet {
 		return false;
 	}
 
+	private void sortAndPrint(int numToPrint) {
+		
+		toSort = new Marker[quakeMarkers.size()];
+		toSort = quakeMarkers.toArray(toSort);
+		
+		for (int i= 0; i < toSort.length-1; i++) {
+			
+			int indexMin = i;
+			//Float.parseFloat(toSort[j].getProperty("magnitude").toString()
+			for (int j = i + 1; j < toSort.length; j++) {
+				if ( Float.parseFloat(toSort[j].getProperty("magnitude").toString()) < Float.parseFloat(toSort[indexMin].getProperty("magnitude").toString()) ) {
+					indexMin = j;
+				}
+			}
+			Marker temp_i = toSort[i];
+			toSort[i] = toSort[indexMin];
+			toSort[indexMin] = temp_i;
+		}
+		
+		
+		for (Marker q : toSort) {
+			
+			System.out.println(q.getProperty("magnitude").toString());
+			
+		}
+	}
 }
